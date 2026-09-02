@@ -26,19 +26,19 @@ VALUES
     'BrightFuture Builders',
     'BrightFuture Builders creates sustainable community infrastructure and works to improve neighborhoods through environmentally responsible construction projects.',
     'info@brightfuturebuilders.org',
-    'brightfuture-logo.png'
+    'community.svg'
 ),
 (
     'GreenHarvest Growers',
     'GreenHarvest Growers promotes urban farming, local food production, and sustainable food systems within the community.',
     'contact@greenharvest.org',
-    'greenharvest-logo.png'
+    'education.svg'
 ),
 (
     'UnityServe Volunteers',
     'UnityServe Volunteers coordinates volunteers and connects them with local charities and community service opportunities.',
     'hello@unityserve.org',
-    'unityserve-logo.png'
+    'environment.svg'
 );
 
 
@@ -226,19 +226,3 @@ FROM service_project sp
 JOIN organization o
     ON sp.organization_id = o.organization_id
 ORDER BY sp.date;
-
--- ============================================
--- Update images
--- ============================================
-
-UPDATE organization
-SET logo_filename = 'community.svg'
-WHERE name = 'BrightFuture Builders';
-
-UPDATE organization
-SET logo_filename = 'education.svg'
-WHERE name = 'GreenHarvest Growers';
-
-UPDATE organization
-SET logo_filename = 'environment.svg'
-WHERE name = 'UnityServe Volunteers';
