@@ -1,6 +1,7 @@
 <%- include("partials/header", { title }) %>
 
 <section class="page-banner">
+
     <div class="container">
 
         <p class="eyebrow">Our community</p>
@@ -12,94 +13,53 @@
         </p>
 
     </div>
+
 </section>
 
 <section class="section">
+
     <div class="container">
 
         <div class="organization-grid">
 
-            <article class="organization-card">
+            <% organizations.forEach((organization) => { %>
 
-                <img
-                    src="/images/community.svg"
-                    alt="Illustration representing community service"
-                >
+                <article class="organization-card">
 
-                <div class="organization-content">
+                    <img
+                        src="/images/<%= organization.logo_filename %>"
+                        alt="<%= organization.name %> logo"
+                    >
 
-                    <span class="tag">
-                        Community
-                    </span>
+                    <div class="organization-content">
 
-                    <h2>
-                        Community Connect
-                    </h2>
+                        <span class="tag">
+                            Community Organization
+                        </span>
 
-                    <p>
-                        Brings volunteers together to support local
-                        neighborhoods through hands-on service.
-                    </p>
+                        <h2>
+                            <%= organization.name %>
+                        </h2>
 
-                </div>
+                        <p>
+                            <%= organization.description %>
+                        </p>
 
-            </article>
+                        <p>
+                            <strong>Contact:</strong>
+                            <%= organization.contact_email %>
+                        </p>
 
-            <article class="organization-card">
+                    </div>
 
-                <img
-                    src="/images/education.svg"
-                    alt="Illustration representing educational service"
-                >
+                </article>
 
-                <div class="organization-content">
-
-                    <span class="tag">
-                        Education
-                    </span>
-
-                    <h2>
-                        Learning Partners
-                    </h2>
-
-                    <p>
-                        Provides tutoring, mentoring, and educational
-                        resources for students in the community.
-                    </p>
-
-                </div>
-
-            </article>
-
-            <article class="organization-card">
-
-                <img
-                    src="/images/environment.svg"
-                    alt="Illustration representing environmental service"
-                >
-
-                <div class="organization-content">
-
-                    <span class="tag">
-                        Environment
-                    </span>
-
-                    <h2>
-                        Green Future
-                    </h2>
-
-                    <p>
-                        Coordinates projects that protect local parks,
-                        waterways, and natural spaces.
-                    </p>
-
-                </div>
-
-            </article>
+            <% }) %>
 
         </div>
 
     </div>
+
 </section>
 
 <%- include("partials/footer") %>
