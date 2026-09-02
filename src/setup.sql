@@ -1,10 +1,16 @@
 -- ============================================
--- ORGANIZATIONS
+-- DROP EXISTING TABLES
 -- ============================================
 
+DROP TABLE IF EXISTS project_category;
+DROP TABLE IF EXISTS category;
 DROP TABLE IF EXISTS service_project;
 DROP TABLE IF EXISTS organization;
 
+
+-- ============================================
+-- ORGANIZATIONS
+-- ============================================
 
 CREATE TABLE organization (
     organization_id SERIAL PRIMARY KEY,
@@ -209,12 +215,96 @@ VALUES
 
 
 -- ============================================
+-- CATEGORIES
+-- ============================================
+
+CREATE TABLE category (
+    category_id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE
+);
+
+
+-- ============================================
+-- PROJECT/CATEGORY JUNCTION TABLE
+-- ============================================
+
+CREATE TABLE project_category (
+    project_id INT NOT NULL,
+    category_id INT NOT NULL,
+
+    PRIMARY KEY (project_id, category_id),
+
+    CONSTRAINT fk_project_category_project
+        FOREIGN KEY (project_id)
+        REFERENCES service_project(project_id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_project_category_category
+        FOREIGN KEY (category_id)
+        REFERENCES category(category_id)
+        ON DELETE CASCADE
+);
+
+
+-- ============================================
+-- CATEGORY DATA
+-- ============================================
+
+INSERT INTO category (name)
+VALUES
+    ('Environment'),
+    ('Community'),
+    ('Education');
+
+
+-- ============================================
+-- PROJECT/CATEGORY RELATIONSHIPS
+-- ============================================
+
+INSERT INTO project_category (project_id, category_id)
+VALUES
+    -- BrightFuture Builders
+    (1, 2), -- Community Garden Construction → Community
+    (1, 3), -- Community Garden Construction → Education
+    (2, 1), -- Neighborhood Park Renovation → Environment
+    (2, 2), -- Neighborhood Park Renovation → Community
+    (3, 1), -- Habitat Restoration Day → Environment
+    (4, 2), -- Community Center Cleanup → Community
+    (5, 3), -- Sustainable Housing Workshop → Education
+    (5, 1), -- Sustainable Housing Workshop → Environment
+
+    -- GreenHarvest Growers
+    (6, 1), -- Urban Garden Planting → Environment
+    (6, 2), -- Urban Garden Planting → Community
+    (7, 2), -- Community Harvest → Community
+    (8, 1), -- Food Sustainability Workshop → Environment
+    (8, 3), -- Food Sustainability Workshop → Education
+    (9, 3), -- Seedling Preparation Day → Education
+    (10, 1), -- Neighborhood Compost Project → Environment
+    (10, 3), -- Neighborhood Compost Project → Education
+
+    -- UnityServe Volunteers
+    (11, 2), -- Food Bank Volunteer Day → Community
+    (12, 1), -- Neighborhood Cleanup → Environment
+    (12, 2), -- Neighborhood Cleanup → Community
+    (13, 2), -- Senior Center Assistance → Community
+    (13, 3), -- Senior Center Assistance → Education
+    (14, 2), -- Charity Donation Drive → Community
+    (15, 2), -- Holiday Outreach Preparation → Community
+    (15, 3); -- Holiday Outreach Preparation → Education
+
+
+-- ============================================
 -- VERIFICATION
 -- ============================================
 
 SELECT * FROM organization;
 
 SELECT * FROM service_project;
+
+SELECT * FROM category;
+
+SELECT * FROM project_category;
 
 SELECT
     sp.project_id,
