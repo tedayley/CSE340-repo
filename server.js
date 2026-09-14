@@ -1,7 +1,10 @@
 import "dotenv/config";
 
 import express from "express";
-import { getAllProjects } from "./src/models/projects.js";
+import {
+    showProjectsPage,
+    showProjectDetailsPage
+} from "./src/controllers/projects.js";
 import { getAllOrganizations } from "./src/models/organizations.js";
 import { getAllCategories } from "./src/models/categories.js";
 
@@ -37,16 +40,9 @@ app.get("/organizations", async (req, res) => {
 });
 
 
-app.get("/projects", async (req, res) => {
+app.get("/projects", showProjectsPage);
 
-    const projects = await getAllProjects();
-
-    const title = "Service Projects";
-
-    res.render("projects", { title, projects });
-
-});
-
+app.get("/project/:id", showProjectDetailsPage);
 
 app.get("/categories", async (req, res) => {
 
