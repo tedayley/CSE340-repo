@@ -1,13 +1,10 @@
 import "dotenv/config";
 
 import express from "express";
-import {
-    showProjectsPage,
-    showProjectDetailsPage
-} from "./src/controllers/projects.js";
-import { getAllOrganizations } from "./src/models/organizations.js";
-import { getAllCategories } from "./src/models/categories.js";
-
+import categoryRoutes from "./src/routes/categories.js";
+import organizationRoutes from "./src/routes/organizations.js";
+import projectRoutes from "./src/routes/projects.js";
+import homeRoutes from "./src/routes/home.js";
 
 const app = express();
 
@@ -19,49 +16,23 @@ app.set("views", "views");
 
 app.use(express.static("public"));
 
-
-app.get("/", async (req, res) => {
-
-    const title = "Home";
-
-    res.render("home", { title });
-
-});
-
-
-app.get("/organizations", async (req, res) => {
-
-    const organizations = await getAllOrganizations();
-
-    const title = "Organizations";
-
-    res.render("organizations", { title, organizations });
-
-});
-
-
-app.get("/projects", showProjectsPage);
-
-app.get("/project/:id", showProjectDetailsPage);
-
-app.get("/categories", async (req, res) => {
-
-    const categories = await getAllCategories();
-
-    const title = "Service Project Categories";
-
-    res.render("categories", { title, categories });
-
-});
-
+app.use(categoryRoutes);
+app.use(organizationRoutes);
+app.use(projectRoutes);
+app.use(homeRoutes);
 
 app.use((req, res) => {
-
     const title = "Page Not Found";
 
     res.status(404).render("404", { title });
-
 });
 
+app.use((error, req, res, next) => {
+    console.error(error);
+
+    const title = "Server Error";
+
+    res.status(500).render("500", { title });
+});
 
 app.listen(port);
