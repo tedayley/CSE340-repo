@@ -965,3 +965,68 @@ h3 {
         animation: none !important;
     }
 }
+
+/* Edit Project Form */
+.edit-project-form {
+    max-width: 700px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: #111;
+    border: 1px solid #00e5ff;
+    border-radius: 10px;
+    box-shadow: 0 0 12px rgba(0, 229, 255, 0.25);
+}
+
+.edit-project-form h1 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: #00e5ff;
+}
+
+.edit-project-form label {
+    display: block;
+    margin-top: 1rem;
+    margin-bottom: 0.4rem;
+    font-weight: bold;
+}
+
+.edit-project-form input,
+.edit-project-form textarea,
+.edit-project-form select {
+    width: 100%;
+    padding: 0.7rem;
+    box-sizing: border-box;
+    background: #1a1a1a;
+    color: #fff;
+    border: 1px solid #555;
+    border-radius: 5px;
+    font: inherit;
+}
+
+.edit-project-form textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.edit-project-form input:focus,
+.edit-project-form textarea:focus,
+.edit-project-form select:focus {
+    outline: none;
+    border-color: #00e5ff;
+    box-shadow: 0 0 6px rgba(0, 229, 255, 0.4);
+}
+
+.edit-project-form button {
+    margin-top: 1.5rem;
+    padding: 0.7rem 1.4rem;
+    background: #00e5ff;
+    color: #111;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.edit-project-form button:hover {
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.6);
+}
