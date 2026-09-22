@@ -29,3 +29,9 @@
 </header>
 
 <main class="site-main">
+
+<% if (flash) { %>
+    <div class="container">
+        <p class="flash flash-<%= flash.type %>" role="status"><%= flash.message %></p>
+    </div>
+<% } %>

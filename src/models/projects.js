@@ -1,5 +1,29 @@
 import db from './db.js';
 
+const createProject = async (
+    organization_id,
+    title,
+    description,
+    location,
+    date
+) => {
+    const query = `
+        INSERT INTO service_project (organization_id, title, description, location, date)
+        VALUES ($1, $2, $3, $4, $5)
+        RETURNING *;
+    `;
+
+    const result = await db.query(query, [
+        organization_id,
+        title,
+        description,
+        location,
+        date
+    ]);
+
+    return result.rows[0];
+};
+
 const getAllProjects = async () => {
     const query = `
         SELECT
@@ -101,9 +125,22 @@ const updateProject = async (
     return result.rows[0];
 };
 
+const deleteProject = async (project_id) => {
+    const result = await db.query(
+        "DELETE FROM service_project WHERE project_id = $1",
+        [project_id]
+    );
+
+    if (result.rowCount === 0) {
+        throw new Error("Project not found");
+    }
+};
+
 export {
+    createProject,
     getAllProjects,
     getUpcomingProjects,
     getProjectDetails,
-    updateProject
+    updateProject,
+    deleteProject
 };

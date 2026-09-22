@@ -1,0 +1,37 @@
+<%- include("partials/header", { title }) %>
+
+<div class="container">
+    <form class="edit-project-form" action="/new-project" method="POST">
+        <h1>New Service Project</h1>
+
+        <% if (typeof error !== "undefined") { %>
+            <p class="form-error" role="alert"><%= error %></p>
+        <% } %>
+
+        <label for="title">Project Title</label>
+        <input id="title" name="title" value="<%= project.title || "" %>" minlength="3" maxlength="150" required>
+
+        <label for="description">Description</label>
+        <textarea id="description" name="description" minlength="10" required><%= project.description || "" %></textarea>
+
+        <label for="location">Location</label>
+        <input id="location" name="location" value="<%= project.location || "" %>" minlength="2" maxlength="255" required>
+
+        <label for="date">Date</label>
+        <input type="date" id="date" name="date" value="<%= project.date || "" %>" required>
+
+        <label for="organization_id">Organization</label>
+        <select id="organization_id" name="organization_id" required>
+            <option value="">Select an organization</option>
+            <% organizations.forEach((organization) => { %>
+                <option value="<%= organization.organization_id %>" <%= String(organization.organization_id) === String(project.organization_id) ? "selected" : "" %>>
+                    <%= organization.name %>
+                </option>
+            <% }) %>
+        </select>
+
+        <button type="submit">Create Project</button>
+    </form>
+</div>
+
+<%- include("partials/footer") %>

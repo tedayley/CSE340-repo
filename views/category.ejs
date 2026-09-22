@@ -4,7 +4,12 @@
     <div class="container">
         <p class="eyebrow">Service Categories</p>
         <h1><%= category.name %></h1>
-        <a href="/edit-category/<%= category.category_id %>">Edit Category</a>
+        <p>
+            <a class="button button-secondary" href="/edit-category/<%= category.category_id %>">Edit Category</a>
+        </p>
+        <form class="inline-form" action="/delete-category/<%= category.category_id %>" method="POST" onsubmit="return confirm('Delete this category? Its project assignments will also be removed.');">
+            <button class="button button-danger" type="submit">Delete Category</button>
+        </form>
         <p>
             Explore service projects in this category.
         </p>

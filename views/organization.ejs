@@ -35,6 +35,11 @@
                     <strong>Contact:</strong>
                     <%= organization.contact_email %>
                 </p>
+
+                <a class="button button-secondary" href="/edit-organization/<%= organization.organization_id %>">Edit Organization</a>
+                <form class="inline-form" action="/delete-organization/<%= organization.organization_id %>" method="POST" onsubmit="return confirm('Delete this organization? Its projects will also be deleted.');">
+                    <button class="button button-danger" type="submit">Delete Organization</button>
+                </form>
             </div>
         </article>
 

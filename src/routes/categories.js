@@ -6,7 +6,8 @@ import {
     showNewCategoryForm,
     processNewCategoryForm,
     showEditCategoryForm,
-    processEditCategoryForm
+    processEditCategoryForm,
+    processDeleteCategory
 } from "../controllers/categories.js";
 
 const router = express.Router();
@@ -22,5 +23,6 @@ router.post("/new-category", processNewCategoryForm);
 router.get("/edit-category/:id", showEditCategoryForm);
 
 router.post("/edit-category/:id", processEditCategoryForm);
+router.post("/delete-category/:id", processDeleteCategory);
 
 export default router;

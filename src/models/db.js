@@ -43,6 +43,10 @@ if (
 
         async close() {
             await pool.end();
+        },
+
+        async connect() {
+            return pool.connect();
         }
     };
 } else {

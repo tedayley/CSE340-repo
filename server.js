@@ -1,6 +1,7 @@
 import "dotenv/config";
 
 import express from "express";
+import session from "express-session";
 import categoryRoutes from "./src/routes/categories.js";
 import organizationRoutes from "./src/routes/organizations.js";
 import projectRoutes from "./src/routes/projects.js";
@@ -9,6 +10,19 @@ import homeRoutes from "./src/routes/home.js";
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
+
+app.use(session({
+    secret: process.env.SESSION_SECRET || "service-network-development-secret",
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 1000 * 60 * 5 }
+}));
+
+app.use((req, res, next) => {
+    res.locals.flash = req.session.flash;
+    delete req.session.flash;
+    next();
+});
 
 const port = process.env.PORT || 3000;
 

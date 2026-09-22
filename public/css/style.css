@@ -443,6 +443,22 @@ h3 {
         0 0 15px rgba(168, 85, 247, 0.3);
 }
 
+.button-danger {
+    color: var(--text);
+    background: transparent;
+    border: 1px solid #ff667d;
+}
+
+.button-danger:hover {
+    background: rgba(255, 102, 125, 0.12);
+    box-shadow: 0 0 15px rgba(255, 102, 125, 0.25);
+}
+
+.inline-form {
+    display: inline-block;
+    margin: 0.5rem 0.5rem 0 0;
+}
+
 
 /* =========================
    Sections
@@ -1029,4 +1045,31 @@ h3 {
 
 .edit-project-form button:hover {
     box-shadow: 0 0 10px rgba(0, 229, 255, 0.6);
+}
+
+.flash {
+    margin: 1.5rem 0 0;
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--cyan);
+    background: rgba(40, 231, 255, 0.1);
+    color: var(--text);
+}
+
+.form-error {
+    color: #ff9d9d;
+}
+
+.category-form fieldset {
+    border: 1px solid var(--border);
+    padding: 1rem;
+}
+
+.checkbox-label {
+    display: block;
+    margin: 0.5rem 0;
+}
+
+.checkbox-label input {
+    width: auto;
+    margin-right: 0.5rem;
 }

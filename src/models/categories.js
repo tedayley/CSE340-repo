@@ -108,6 +108,48 @@ const updateCategory = async (category_id, name) => {
     return result.rows[0];
 };
 
+const deleteCategory = async (category_id) => {
+    const result = await db.query(
+        "DELETE FROM category WHERE category_id = $1",
+        [category_id]
+    );
+
+    if (result.rowCount === 0) {
+        throw new Error("Category not found");
+    }
+};
+
+const updateProjectCategories = async (project_id, category_ids) => {
+    const client = await db.connect();
+
+    try {
+        await client.query("BEGIN");
+        await client.query(
+            "DELETE FROM project_category WHERE project_id = $1",
+            [project_id]
+        );
+
+        if (category_ids.length > 0) {
+            await client.query(
+                `
+                    INSERT INTO project_category (project_id, category_id)
+                    SELECT $1, category_id
+                    FROM category
+                    WHERE category_id = ANY($2::int[]);
+                `,
+                [project_id, category_ids]
+            );
+        }
+
+        await client.query("COMMIT");
+    } catch (error) {
+        await client.query("ROLLBACK");
+        throw error;
+    } finally {
+        client.release();
+    }
+};
+
 
 export {
     getAllCategories,
@@ -115,5 +157,7 @@ export {
     getCategoriesByProject,
     getProjectsByCategory,
     createCategory,
-    updateCategory
+    updateCategory,
+    deleteCategory,
+    updateProjectCategories
 };

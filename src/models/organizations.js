@@ -56,4 +56,73 @@ const getProjectsByOrganization = async (organization_id) => {
     return result.rows;
 };
 
-export { getAllOrganizations, getOrganizationDetails, getProjectsByOrganization };
+const createOrganization = async (
+    name,
+    description,
+    contact_email,
+    logo_filename
+) => {
+    const query = `
+        INSERT INTO organization (name, description, contact_email, logo_filename)
+        VALUES ($1, $2, $3, $4)
+        RETURNING *;
+    `;
+
+    const result = await db.query(query, [
+        name,
+        description,
+        contact_email,
+        logo_filename
+    ]);
+
+    return result.rows[0];
+};
+
+const updateOrganization = async (
+    organization_id,
+    name,
+    description,
+    contact_email,
+    logo_filename
+) => {
+    const query = `
+        UPDATE organization
+        SET name = $1, description = $2, contact_email = $3, logo_filename = $4
+        WHERE organization_id = $5
+        RETURNING *;
+    `;
+
+    const result = await db.query(query, [
+        name,
+        description,
+        contact_email,
+        logo_filename,
+        organization_id
+    ]);
+
+    if (result.rowCount === 0) {
+        throw new Error("Organization not found");
+    }
+
+    return result.rows[0];
+};
+
+const deleteOrganization = async (organization_id) => {
+    const result = await db.query(
+        "DELETE FROM organization WHERE organization_id = $1",
+        [organization_id]
+    );
+
+    if (result.rowCount === 0) {
+        throw new Error("Organization not found");
+    }
+};
+
+export {
+    getAllOrganizations,
+    getOrganizationDetails,
+    getProjectsByOrganization,
+    createOrganization,
+    updateOrganization,
+    deleteOrganization
+};

@@ -56,6 +56,10 @@
                 </p>
 
                 <a href="/edit-project/<%= project.project_id %>">Edit Project</a>
+                <a href="/edit-project/<%= project.project_id %>/categories">Update Categories</a>
+                <form class="inline-form" action="/delete-project/<%= project.project_id %>" method="POST" onsubmit="return confirm('Delete this project?');">
+                    <button class="button button-danger" type="submit">Delete Project</button>
+                </form>
 
             </div>
 

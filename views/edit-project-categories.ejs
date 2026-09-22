@@ -1,0 +1,22 @@
+<%- include("partials/header", { title }) %>
+
+<div class="container">
+    <form class="edit-project-form category-form" action="/edit-project/<%= project.project_id %>/categories" method="POST">
+        <h1>Update Project Categories</h1>
+        <p><%= project.title %></p>
+
+        <fieldset>
+            <legend>Categories</legend>
+            <% categories.forEach((category) => { %>
+                <label class="checkbox-label">
+                    <input type="checkbox" name="category_ids" value="<%= category.category_id %>" <%= selectedCategoryIds.includes(category.category_id) ? "checked" : "" %>>
+                    <%= category.name %>
+                </label>
+            <% }) %>
+        </fieldset>
+
+        <button type="submit">Save Categories</button>
+    </form>
+</div>
+
+<%- include("partials/footer") %>
