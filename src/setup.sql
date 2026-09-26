@@ -1,11 +1,48 @@
+```sql
 -- ============================================
 -- DROP EXISTING TABLES
 -- ============================================
 
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS role;
 DROP TABLE IF EXISTS project_category;
 DROP TABLE IF EXISTS category;
 DROP TABLE IF EXISTS service_project;
 DROP TABLE IF EXISTS organization;
+
+
+-- ============================================
+-- ROLES
+-- ============================================
+
+CREATE TABLE role (
+    role_id SERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE
+);
+
+
+INSERT INTO role (name)
+VALUES
+    ('admin'),
+    ('user');
+
+
+-- ============================================
+-- USERS
+-- ============================================
+
+CREATE TABLE users (
+    user_id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    role_id INT NOT NULL,
+
+    CONSTRAINT fk_user_role
+        FOREIGN KEY (role_id)
+        REFERENCES role(role_id)
+        ON DELETE RESTRICT
+);
 
 
 -- ============================================
@@ -298,6 +335,10 @@ VALUES
 -- VERIFICATION
 -- ============================================
 
+SELECT * FROM role;
+
+SELECT * FROM users;
+
 SELECT * FROM organization;
 
 SELECT * FROM service_project;
@@ -316,3 +357,4 @@ FROM service_project sp
 JOIN organization o
     ON sp.organization_id = o.organization_id
 ORDER BY sp.date;
+```
