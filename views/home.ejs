@@ -31,6 +31,12 @@
                 <a class="button button-secondary" href="/organizations">
                     View Organizations
                 </a>
+
+                <% if (user && user.role_name === "admin") { %>
+                    <a class="button button-secondary" href="/users">
+                        Users
+                    </a>
+                <% } %>
             </div>
         </div>
     </div>

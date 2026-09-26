@@ -1,5 +1,9 @@
 import bcrypt from "bcrypt";
-import { authenticateUser, createUser } from "../models/users.js";
+import {
+    authenticateUser,
+    createUser,
+    getAllUsers,
+} from "../models/users.js";
 
 /* ***************************
  * Display Registration Form
@@ -95,6 +99,19 @@ const processLogout = async (req, res) => {
     });
 };
 
+const requireLogin = (req, res, next) => {
+    if (req.session.user) {
+        return next();
+    }
+
+    req.session.flash = {
+        type: "error",
+        message: "Please log in to access this page."
+    };
+
+    return res.redirect("/login");
+};
+
 const requireRole = (role) => {
     return (req, res, next) => {
         if (req.session.user && req.session.user.role_name === role) {
@@ -110,6 +127,15 @@ const requireRole = (role) => {
     };
 };
 
+const showUsersPage = async (req, res) => {
+    const users = await getAllUsers();
+
+    res.render("users", {
+        title: "Users",
+        users,
+    });
+};
+
 /* ***************************
  * Export Controller Functions
  * ************************** */
@@ -118,6 +144,8 @@ export {
     processUserRegistrationForm,
     showLoginForm,
     processLoginForm,
+    requireLogin,
     requireRole,
+    showUsersPage,
     processLogout,
 };

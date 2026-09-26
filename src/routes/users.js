@@ -5,6 +5,9 @@ import {
     processUserRegistrationForm,
     showLoginForm,
     processLoginForm,
+    requireLogin,
+    requireRole,
+    showUsersPage,
     processLogout,
 } from "../controllers/users.js";
 
@@ -29,6 +32,9 @@ router.get("/login", showLoginForm);
 
 // Process login
 router.post("/login", processLoginForm);
+
+// Users page for admins
+router.get("/users", requireLogin, requireRole("admin"), showUsersPage);
 
 // Process logout
 router.get("/logout", processLogout);

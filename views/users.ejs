@@ -1,0 +1,33 @@
+<%- include("partials/header", { title }) %>
+
+<section class="page-banner">
+    <div class="container">
+        <p class="eyebrow">Admin</p>
+        <h1>Users</h1>
+        <p>
+            View all registered users in the system.
+        </p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="project-list">
+            <% users.forEach((userEntry, index) => { %>
+                <article class="project-card">
+                    <div class="project-number">
+                        <%= String(index + 1).padStart(2, "0") %>
+                    </div>
+
+                    <div>
+                        <h2><%= userEntry.name %></h2>
+                        <p><strong>Email:</strong> <%= userEntry.email %></p>
+                        <p><strong>Role:</strong> <%= userEntry.role_name %></p>
+                    </div>
+                </article>
+            <% }) %>
+        </div>
+    </div>
+</section>
+
+<%- include("partials/footer") %>
