@@ -95,6 +95,21 @@ const processLogout = async (req, res) => {
     });
 };
 
+const requireRole = (role) => {
+    return (req, res, next) => {
+        if (req.session.user && req.session.user.role_name === role) {
+            return next();
+        }
+
+        req.session.flash = {
+            type: "error",
+            message: "You do not have permission to access this page."
+        };
+
+        return res.redirect("/");
+    };
+};
+
 /* ***************************
  * Export Controller Functions
  * ************************** */
@@ -103,5 +118,6 @@ export {
     processUserRegistrationForm,
     showLoginForm,
     processLoginForm,
+    requireRole,
     processLogout,
 };

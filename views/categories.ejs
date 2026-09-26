@@ -25,9 +25,11 @@
 
     <div class="container">
 
-        <p>
-            <a class="button button-primary" href="/new-category">Create New Category</a>
-        </p>
+        <% if (user && user.role_name === "admin") { %>
+            <p>
+                <a class="button button-primary" href="/new-category">Create New Category</a>
+            </p>
+        <% } %>
 
         <div class="category-grid">
 

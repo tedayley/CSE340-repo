@@ -1,26 +1,35 @@
 <%- include("partials/header", { title }) %>
 
 <section class="page-banner">
+
     <div class="container">
+
         <p class="eyebrow">Community Organization</p>
+
         <h1><%= organization.name %></h1>
+
         <p>
             Learn more about this organization and the service
             projects it supports.
         </p>
+
     </div>
+
 </section>
 
 <section class="section">
+
     <div class="container">
 
         <article class="organization-card">
+
             <img
                 src="/images/<%= organization.logo_filename %>"
                 alt="<%= organization.name %> logo"
             >
 
             <div class="organization-content">
+
                 <span class="tag">
                     Community Organization
                 </span>
@@ -36,49 +45,80 @@
                     <%= organization.contact_email %>
                 </p>
 
-                <a class="button button-secondary" href="/edit-organization/<%= organization.organization_id %>">Edit Organization</a>
-                <form class="inline-form" action="/delete-organization/<%= organization.organization_id %>" method="POST" onsubmit="return confirm('Delete this organization? Its projects will also be deleted.');">
-                    <button class="button button-danger" type="submit">Delete Organization</button>
-                </form>
+                <% if (user && user.role_name === "admin") { %>
+
+                    <a
+                        class="button button-secondary"
+                        href="/edit-organization/<%= organization.organization_id %>"
+                    >
+                        Edit Organization
+                    </a>
+
+                    <form
+                        class="inline-form"
+                        action="/delete-organization/<%= organization.organization_id %>"
+                        method="POST"
+                        onsubmit="return confirm('Delete this organization? Its projects will also be deleted.');"
+                    >
+                        <button
+                            class="button button-danger"
+                            type="submit"
+                        >
+                            Delete Organization
+                        </button>
+                    </form>
+
+                <% } %>
+
             </div>
+
         </article>
 
         <h2>Service Projects</h2>
 
         <div class="project-list">
-<% projects.forEach((project, index) => { %>
-            <article class="project-card">
-                <div class="project-number">
-                    <%= String(index + 1).padStart(2, "0") %>
-                </div>
 
-                <div>
-                    <h3>
-                        <a href="/project/<%= project.project_id %>">
-                            <%= project.title %>
-                        </a>
-                    </h3>
+            <% projects.forEach((project, index) => { %>
 
-                    <p>
-                        <%= project.description %>
-                    </p>
+                <article class="project-card">
 
-                    <p class="project-meta">
-                        <%= project.date.toLocaleDateString("en-US", {
-                            weekday: "long",
-                            month: "long",
-                            day: "numeric",
-                            year: "numeric"
-                        }) %>
-                        &bull;
-                        <%= project.location %>
-                    </p>
-                </div>
-            </article>
-<% }) %>
+                    <div class="project-number">
+                        <%= String(index + 1).padStart(2, "0") %>
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            <a href="/project/<%= project.project_id %>">
+                                <%= project.title %>
+                            </a>
+                        </h3>
+
+                        <p>
+                            <%= project.description %>
+                        </p>
+
+                        <p class="project-meta">
+                            <%= project.date.toLocaleDateString("en-US", {
+                                weekday: "long",
+                                month: "long",
+                                day: "numeric",
+                                year: "numeric"
+                            }) %>
+                            &bull;
+                            <%= project.location %>
+                        </p>
+
+                    </div>
+
+                </article>
+
+            <% }) %>
+
         </div>
 
     </div>
+
 </section>
 
 <%- include("partials/footer") %>

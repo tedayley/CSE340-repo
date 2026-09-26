@@ -21,7 +21,9 @@
 
     <div class="container">
 
-        <p><a class="button button-primary" href="/new-project">Create New Project</a></p>
+        <% if (user && user.role_name === "admin") { %>
+            <p><a class="button button-primary" href="/new-project">Create New Project</a></p>
+        <% } %>
 
         <div class="project-list">
 

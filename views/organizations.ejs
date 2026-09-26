@@ -20,7 +20,13 @@
 
     <div class="container">
 
-        <p><a class="button button-primary" href="/new-organization">Create New Organization</a></p>
+        <% if (user && user.role_name === "admin") { %>
+            <p>
+                <a class="button button-primary" href="/new-organization">
+                    Create New Organization
+                </a>
+            </p>
+        <% } %>
 
         <div class="organization-grid">
 
