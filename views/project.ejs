@@ -20,10 +20,9 @@
 
     <div class="container">
 
-        <article class="project-card">
-
-            <div>
-
+        <article class="project-card project-details-card">
+            <div class="project-main">
+                <div class="project-tags">
                 <span class="tag">
                     <a href="/organization/<%= project.organization_id %>">
                         <%= project.organization_name %>
@@ -37,23 +36,44 @@
                         </a>
                     </span>
                 <% }) %>
+                </div>
 
                 <h2><%= project.title %></h2>
 
-                <p>
+                <p class="project-description">
                     <%= project.description %>
                 </p>
+            </div>
 
-                <p class="project-meta">
+            <aside class="project-sidebar" aria-label="Project details and actions">
+                <div class="project-facts">
+                    <p class="project-meta">
+                        <strong>Date</strong>
                     <%= project.date.toLocaleDateString("en-US", {
                         weekday: "long",
                         month: "long",
                         day: "numeric",
                         year: "numeric"
                     }) %>
-                    &bull;
-                    <%= project.location %>
-                </p>
+                    </p>
+                    <p class="project-meta">
+                        <strong>Location</strong>
+                        <%= project.location %>
+                    </p>
+                </div>
+
+                <% if (user) { %>
+                    <% if (isVolunteering) { %>
+                        <p>You are volunteering for this project.</p>
+                        <form class="inline-form" action="/project/<%= project.project_id %>/unvolunteer" method="POST">
+                            <button class="button button-danger" type="submit">Remove Me</button>
+                        </form>
+                    <% } else { %>
+                        <form class="inline-form" action="/project/<%= project.project_id %>/volunteer" method="POST">
+                            <button class="button button-primary" type="submit">Volunteer for This Project</button>
+                        </form>
+                    <% } %>
+                <% } %>
 
                 <% if (user && user.role_name === "admin") { %>
                     <div class="button-group project-actions">
@@ -68,9 +88,7 @@
                         </form>
                     </div>
                 <% } %>
-
-            </div>
-
+            </aside>
         </article>
 
     </div>

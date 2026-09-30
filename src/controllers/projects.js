@@ -1,6 +1,9 @@
 import {
     getUpcomingProjects,
     getProjectDetails,
+    addVolunteer,
+    removeVolunteer,
+    isUserVolunteering,
     createProject,
     updateProject,
     deleteProject
@@ -42,14 +45,52 @@ const showProjectDetailsPage = async (req, res) => {
     }
 
     const categories = await getCategoriesByProject(id);
+    const isVolunteering = req.session.user
+        ? await isUserVolunteering(id, req.session.user.user_id)
+        : false;
 
     const title = project.title;
 
     res.render("project", {
         title,
         project,
-        categories
+        categories,
+        isVolunteering
     });
+};
+
+const processAddVolunteer = async (req, res) => {
+    const projectId = req.params.id;
+    const project = await getProjectDetails(projectId);
+
+    if (!project) {
+        return res.status(404).render("404", { title: "Page Not Found" });
+    }
+
+    const added = await addVolunteer(projectId, req.session.user.user_id);
+    setFlash(
+        req,
+        "success",
+        added ? "You are now volunteering for this project." : "You are already volunteering for this project."
+    );
+    res.redirect(`/project/${projectId}`);
+};
+
+const processRemoveVolunteer = async (req, res) => {
+    const projectId = req.params.id;
+    const project = await getProjectDetails(projectId);
+
+    if (!project) {
+        return res.status(404).render("404", { title: "Page Not Found" });
+    }
+
+    const removed = await removeVolunteer(projectId, req.session.user.user_id);
+    setFlash(
+        req,
+        "success",
+        removed ? "You are no longer volunteering for this project." : "You were not volunteering for this project."
+    );
+    res.redirect(`/project/${projectId}`);
 };
 
 const showNewProjectForm = async (req, res) => {
@@ -184,6 +225,8 @@ const processDeleteProject = async (req, res) => {
 export {
     showProjectsPage,
     showProjectDetailsPage,
+    processAddVolunteer,
+    processRemoveVolunteer,
     showNewProjectForm,
     processNewProjectForm,
     showEditProjectForm,

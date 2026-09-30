@@ -1,8 +1,8 @@
-```sql
 -- ============================================
 -- DROP EXISTING TABLES
 -- ============================================
 
+DROP TABLE IF EXISTS project_volunteer;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS role;
 DROP TABLE IF EXISTS project_category;
@@ -100,6 +100,28 @@ CREATE TABLE service_project (
     CONSTRAINT fk_project_organization
         FOREIGN KEY (organization_id)
         REFERENCES organization(organization_id)
+        ON DELETE CASCADE
+);
+
+
+-- ============================================
+-- PROJECT/VOLUNTEER JUNCTION TABLE
+-- ============================================
+
+CREATE TABLE project_volunteer (
+    project_id INT NOT NULL,
+    user_id INT NOT NULL,
+
+    PRIMARY KEY (project_id, user_id),
+
+    CONSTRAINT fk_project_volunteer_project
+        FOREIGN KEY (project_id)
+        REFERENCES service_project(project_id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_project_volunteer_user
+        FOREIGN KEY (user_id)
+        REFERENCES users(user_id)
         ON DELETE CASCADE
 );
 
@@ -343,6 +365,8 @@ SELECT * FROM organization;
 
 SELECT * FROM service_project;
 
+SELECT * FROM project_volunteer;
+
 SELECT * FROM category;
 
 SELECT * FROM project_category;
@@ -357,4 +381,3 @@ FROM service_project sp
 JOIN organization o
     ON sp.organization_id = o.organization_id
 ORDER BY sp.date;
-```

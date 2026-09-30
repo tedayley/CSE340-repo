@@ -3,6 +3,8 @@ import express from "express";
 import {
     showProjectsPage,
     showProjectDetailsPage,
+    processAddVolunteer,
+    processRemoveVolunteer,
     showNewProjectForm,
     processNewProjectForm,
     showEditProjectForm,
@@ -12,13 +14,25 @@ import {
     processDeleteProject
 } from "../controllers/projects.js";
 
-import { requireRole } from "../controllers/users.js";
+import { requireLogin, requireRole } from "../controllers/users.js";
 
 const router = express.Router();
 
 router.get("/projects", showProjectsPage);
 
 router.get("/project/:id", showProjectDetailsPage);
+
+router.post(
+    "/project/:id/volunteer",
+    requireLogin,
+    processAddVolunteer
+);
+
+router.post(
+    "/project/:id/unvolunteer",
+    requireLogin,
+    processRemoveVolunteer
+);
 
 router.get(
     "/new-project",

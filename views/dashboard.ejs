@@ -1,0 +1,45 @@
+<%- include("partials/header", { title }) %>
+
+<section class="page-banner">
+    <div class="container">
+        <p class="eyebrow">Your Service Network</p>
+        <h1>Dashboard</h1>
+        <p>Projects you are currently volunteering for.</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <% if (projects.length === 0) { %>
+            <p>You are not currently volunteering for any projects.</p>
+        <% } else { %>
+            <div class="card-grid">
+                <% projects.forEach((project) => { %>
+                    <article class="project-card dashboard-project-card">
+                        <div>
+                            <p class="eyebrow"><%= project.organization_name %></p>
+                            <h2>
+                                <a href="/project/<%= project.project_id %>"><%= project.title %></a>
+                            </h2>
+                            <p class="project-meta">
+                                <%= project.date.toLocaleDateString("en-US", {
+                                    weekday: "long",
+                                    month: "long",
+                                    day: "numeric",
+                                    year: "numeric"
+                                }) %>
+                                &bull;
+                                <%= project.location %>
+                            </p>
+                            <form class="inline-form" action="/project/<%= project.project_id %>/unvolunteer" method="POST">
+                                <button class="button button-danger" type="submit">Remove Me</button>
+                            </form>
+                        </div>
+                    </article>
+                <% }) %>
+            </div>
+        <% } %>
+    </div>
+</section>
+
+<%- include("partials/footer") %>
